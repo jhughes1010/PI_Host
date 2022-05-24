@@ -1,8 +1,11 @@
 
-//#include "config.h"
+#include "config.h"
 #include <Wire.h>
 
+
+
 int count = 0;
+
 
 void setup()
 {
@@ -16,10 +19,13 @@ void setup()
   //debugln("setup completed");
 
   pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(AUDIO, OUTPUT);
+  tone(AUDIO,440);
 }
 
 void loop()
 {
+  /*
   int size = 6;
   byte lowByte, highByte;
   unsigned int countArray[6];
@@ -60,6 +66,7 @@ void loop()
     Wire.write(highByte);
   }
   Wire.endTransmission();
+  */
 }
 
 /*
