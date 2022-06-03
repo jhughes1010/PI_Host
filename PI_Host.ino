@@ -1,7 +1,13 @@
 
 #include "config.h"
 #include <Wire.h>
+#include <Adafruit_RGBLCDShield.h>
+#include <Adafruit_MCP23X17.h>
 
+//=================================
+//Global Instances
+//=================================
+Adafruit_RGBLCDShield lcd = Adafruit_RGBLCDShield();
 
 
 int count = 0;
@@ -10,12 +16,18 @@ int count = 0;
 void setup()
 {
   Serial.begin(115200);
-  //Serial.println(NAME);
+  Serial.println(NAME);
+  Serial.println(VERSION);
 
   setIO();
 
+  lcd.begin(16, 2);
+  lcd.setBacklight(0x01);
+  lcd.print(NAME);
+
   Wire.begin();
   //debugln("setup completed");
+  Serial.println("Setup completed");
 
   tone(AUDIO, 440);
 }
