@@ -22,8 +22,13 @@ void setup()
 
 void loop()
 {
+  while (1)
+  {
+
+  }
   //int bytes = 12;
   delay(2000);
+  /*
   Wire.beginTransmission(8);
   //for (int x = 0; x < bytes; x++)
   {
@@ -82,4 +87,5 @@ void loop()
     Wire.write(0x2F);
   }
   Wire.endTransmission();
+  */
 }
