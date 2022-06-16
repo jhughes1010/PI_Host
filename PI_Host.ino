@@ -27,15 +27,49 @@ void setup()
   lcd.print(NAME);
 
   Wire.begin();
-  readBatteryV();
+  //readBatteryV();
 
   tone(AUDIO, 440);
-  
+
   debugln("setup completed");
 }
 
 void loop()
 {
-  readBatteryV();
-  delay(2000);
+  unsigned long msec;
+  static unsigned long pressedTime = 0;
+  static bool pressed = false;
+  bool lowBat = false;
+  msec = millis();
+
+  //Check for low battery
+  lowBat = lowBattery(msec);
+  if(lowBat)
+  {
+    lcd.clear();
+    lcd.print("Low Battery");
+    while(1){}
+  }
+
+  if (lcd.readButtons() & BUTTON_SELECT)
+  {
+
+    pressedTime = msec;
+    if (!pressed)
+    {
+      debugln("button pressed");
+      reportBatteryStatus();
+    }
+    pressed = true;
+  }
+  else
+  {
+    if (pressed && ((msec - pressedTime) > 2000))
+    {
+      debugln("button cleared");
+      lcd.clear();
+      lcd.print(NAME);
+      pressed = false;
+    }
+  }
 }

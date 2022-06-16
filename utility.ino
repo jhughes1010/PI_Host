@@ -9,17 +9,3 @@ void setIO(void)
   delay(500);
   digitalWrite(LED_BUILTIN, LOW);
 }
-
-float readBatteryV(void)
-{
-  float batteryVoltage;
-  int batteryADC;
-  batteryADC = analogRead(VBAT);
-  batteryVoltage = (float)batteryADC * .0078;
-
-  debug("Battery Voltage:");
-  debugln(batteryVoltage);
-  lcd.setCursor(0, 1);
-  lcd.print(batteryVoltage);
-  return batteryVoltage;
-}
