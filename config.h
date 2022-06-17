@@ -13,6 +13,14 @@
 #define debugln(x)
 #endif
 
+//=================================
+//Defines
+//=================================
+#define MS * 1E-3
+#define US * 1E-6
+#define NS * 1E-9
+#define CNT_PERIOD 62.5e-9
+
 
 //pins
 #define AUDIO 11
@@ -24,3 +32,29 @@
 
 //temp config
 int batteryType = 0;
+
+
+//Timing Structures
+struct CountCycle
+{
+  word txWidthCount;
+  word sampleDelayCount;
+  word sampleWidthCount;
+  word efeDelayCount;
+  word efeWidthCount;
+  word aquirePeriodCount;
+};
+
+struct TimingCycleUs
+{
+  float txWidth;
+  float sampleDelay;
+  float sampleWidth;
+  float efeDelay;
+  float efeWidth;
+  float aquirePeriod;
+};
+
+CountCycle cycleCNT;       // holds CNT values to transmit to PI client
+TimingCycleUs timing;   // holds desired timing targets in uS
+TimingCycleUs offsets;  // holds timing offsets or minimum cycle times
