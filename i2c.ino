@@ -28,7 +28,7 @@
 
   txPeriodCount = in[10];
   txPeriodCount |= in[11] << 8;
-}
+  }
 
 */
 
@@ -74,66 +74,39 @@
     Wire.write(highByte);
   }
   Wire.endTransmission();
-  */
-
-  //TBD
-/*
-  Wire.beginTransmission(8);
-  //for (int x = 0; x < bytes; x++)
-  {
-  //TX LB/HB
-  Wire.write(0x00);
-  Wire.write(0x03);
-
-  //Delay 1
-  Wire.write(0x0E);
-  Wire.write(0x00);
-
-  //Sample
-  Wire.write(0x00);
-  Wire.write(0x03);
-
-  //Delay 2
-  Wire.write(0x00);
-  Wire.write(0x0C);
-
-  //EFE
-  Wire.write(0x00);
-  Wire.write(0x03);
-
-  //Delay 3
-  Wire.write(0x00);
-  Wire.write(0x38);
-  }
-  Wire.endTransmission();
-
-  delay(2000);
-  Wire.beginTransmission(8);
-  //for (int x = 0; x < bytes; x++)
-  {
-  //TX LB/HB
-  Wire.write(0x00);
-  Wire.write(0x06);
-
-  //Delay 1
-  Wire.write(0x0E);
-  Wire.write(0x00);
-
-  //Sample
-  Wire.write(0x00);
-  Wire.write(0x06);
-
-  //Delay 2
-  Wire.write(0x00);
-  Wire.write(0x0C);
-
-  //EFE
-  Wire.write(0x00);
-  Wire.write(0x06);
-
-  //Delay 3
-  Wire.write(0x00);
-  Wire.write(0x2F);
-  }
-  Wire.endTransmission();
 */
+
+//TBD
+
+void sendI2C (void)
+{
+
+  Wire.beginTransmission(8);
+  //Words are sent LB/HB
+
+  //TX coil width
+  Wire.write(cycleCNT.txWidthCount & 0xff);
+  Wire.write(cycleCNT.txWidthCount >> 8);
+
+  //Delay after TX
+  Wire.write(cycleCNT.sampleDelayCount & 0xff);
+  Wire.write(cycleCNT.sampleDelayCount >> 8);
+
+  //Sample width
+  Wire.write(cycleCNT.sampleWidthCount & 0xff);
+  Wire.write(cycleCNT.sampleWidthCount >> 8);
+
+  //EFE delay
+  Wire.write(cycleCNT.efeDelayCount & 0xff);
+  Wire.write(cycleCNT.efeDelayCount >> 8);
+
+  //EFE width
+  Wire.write(cycleCNT.efeWidthCount & 0xff);
+  Wire.write(cycleCNT.efeWidthCount >> 8);
+
+  //Delay  for remainder of the period
+  Wire.write(cycleCNT.aquirePeriodCount & 0xff);
+  Wire.write(cycleCNT.aquirePeriodCount >> 8);
+
+  Wire.endTransmission();
+}

@@ -22,20 +22,6 @@ float readBatteryV(void)
   return batteryVoltage;
 }
 
-//--------------------
-//LCD clear/display
-//--------------------
-void LCDPrintBattery(float batteryVoltage)
-{
-  debug("Battery Voltage: ");
-  debugln(batteryVoltage);
-
-  lcd.clear();
-  lcd.print("Battery Voltage");
-  lcd.setCursor(0, 1);
-  lcd.print(batteryVoltage, 2);
-  lcd.print(" V");
-}
 
 //--------------------
 //Check for low battery
