@@ -15,6 +15,7 @@ Adafruit_RGBLCDShield lcd = Adafruit_RGBLCDShield();
 //=================================
 extern float coilPulseWidthArray[];
 extern float targetSampleWidthArray[];
+extern int audioFreq[];
 
 int count = 0;
 
@@ -57,18 +58,19 @@ void loop()
   static bool revertScreen = false;
   static int txPos = 0;
   static int samplePos = 0;
+  static int audioPos = 0;
   bool lowBat = false;
   msec = millis();
 
   //Check for low battery
-  /*
-    lowBat = lowBattery(msec);
-    if(lowBat)
-    {
+
+  lowBat = lowBattery(msec);
+  if (lowBat)
+  {
     lcd.clear();
     lcd.print("Low Battery");
-    while(1){}
-    }*/
+    //while(1){}
+  }
 
   if (lcd.readButtons() & BUTTON_SELECT)
   {
@@ -91,7 +93,7 @@ void loop()
     {
       debugln("button pressed");
       txPos ++;
-      txPos = txPos % 4;
+      txPos = txPos % 3;
       timing.txWidth = coilPulseWidthArray[txPos];
       loadCounters();
       printCounters();
@@ -110,7 +112,7 @@ void loop()
     {
       debugln("button pressed - Sample");
       samplePos ++;
-      samplePos = samplePos % 3;
+      samplePos = samplePos % 4;
       timing.sampleWidth = targetSampleWidthArray[samplePos];
       timing.efeWidth = targetSampleWidthArray[samplePos];
       loadCounters();
@@ -121,6 +123,26 @@ void loop()
     pressed = true;
     revertScreen = true;
   }
+  //Audio
+  else if (lcd.readButtons() & BUTTON_LEFT)
+  {
+    pressedTime = msec;
+    if (!pressed)
+    {
+      debugln("button pressed - Audio");
+      audioPos ++;
+      audioPos = audioPos % 4;
+      tone(AUDIO, audioFreq[audioPos]);
+      //loadCounters();
+      //printCounters();
+      //sendI2C();
+      LCDPrintFreq(audioFreq[audioPos]);
+    }
+    pressed = true;
+    revertScreen = true;
+  }
+
+
   else
   {
     if (pressed && ((msec - pressedTime) > 500))

@@ -42,3 +42,18 @@ void LCDPrintBattery(float batteryVoltage)
   lcd.print(batteryVoltage, 2);
   lcd.print(" V");
 }
+
+//--------------------
+//LCD display AudioFrequency
+//--------------------
+void LCDPrintFreq(int freq)
+{
+  debug("Audio: ");
+  debugln(freq);
+
+  lcd.clear();
+  lcd.print("Audio:");
+  lcd.setCursor(0, 1);
+  lcd.print(freq);
+  lcd.print(" Hz");
+}
