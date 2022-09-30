@@ -1,5 +1,5 @@
 // Timing related functions and settings
-float coilPulseWidthArray[3] = {30 US, 40 US, 50 US};
+float coilPulseWidthArray[4] = {20 US, 30 US, 40 US, 50 US};
 float targetSampleWidthArray[4] = {20 US, 30 US, 40 US, 50 US};
 
 

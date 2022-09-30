@@ -39,7 +39,7 @@ void setup()
   tone(AUDIO, 440);
   //setTimingOffsets(1 US, 2.7 US, 3 US, 2 US, 2 US, 2 US);
   //Debug offsets
-  setTimingOffsets(.4 US, 0, 3.5 US, 0, 0, 0);
+  setTimingOffsets(4 US, 0, 3.5 US, 0, 0, 0);
   //Load struct only
   setTimingTargets(50 US, 7 US, 50 US, 100 US, 50 US, 1 MS);
 
@@ -93,7 +93,7 @@ void loop()
     {
       debugln("button pressed");
       txPos ++;
-      txPos = txPos % 3;
+      txPos = txPos % 4;
       timing.txWidth = coilPulseWidthArray[txPos];
       loadCounters();
       printCounters();
