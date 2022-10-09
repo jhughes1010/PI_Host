@@ -19,7 +19,9 @@ extern int audioFreq[];
 
 int count = 0;
 
-
+//=================================
+//setup
+//=================================
 void setup()
 {
   Serial.begin(115200);
@@ -50,8 +52,12 @@ void setup()
   debugln("setup completed");
 }
 
+//=================================
+//loop
+//=================================
 void loop()
 {
+  byte keypress;
   unsigned long msec;
   static unsigned long pressedTime = 0;
   static bool pressed = false;
@@ -73,7 +79,8 @@ void loop()
   }
   if (msec < 15000)
   {
-    if (lcd.readButtons() & BUTTON_SELECT)
+    keypress = lcd.readButtons();
+    if (keypress & BUTTON_SELECT)
     {
       pressedTime = msec;
       if (!pressed)
@@ -87,7 +94,7 @@ void loop()
 
 
     //Update TX coil
-    else if (lcd.readButtons() & BUTTON_UP)
+    else if (keypress & BUTTON_UP)
     {
       pressedTime = msec;
       if (!pressed)
@@ -106,7 +113,7 @@ void loop()
     }
 
     //Update Sample and EFE
-    else if (lcd.readButtons() & BUTTON_DOWN)
+    else if (keypress & BUTTON_DOWN)
     {
       pressedTime = msec;
       if (!pressed)
@@ -125,7 +132,7 @@ void loop()
       revertScreen = true;
     }
     //Audio
-    else if (lcd.readButtons() & BUTTON_LEFT)
+    else if (keypress & BUTTON_LEFT)
     {
       pressedTime = msec;
       if (!pressed)
