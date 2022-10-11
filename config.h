@@ -3,7 +3,7 @@
 #define VERSION "1.0.0a"
 
 
-#define DEBUG 1
+//#define DEBUG 1
 
 #if DEBUG == 1
 #define debug(x) Serial.print(x)
