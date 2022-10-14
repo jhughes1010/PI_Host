@@ -34,6 +34,8 @@ void setup()
   lcd.begin(16, 2);
   lcd.setBacklight(0x01);
   lcd.print(NAME);
+  createCustomChar();
+  
 
   Wire.begin();
   //readBatteryV();
@@ -77,91 +79,91 @@ void loop()
     lcd.print("Low Battery");
     //while(1){}
   }
-  if (msec < 15000)
+
+  LCDBar();
+
+  keypress = lcd.readButtons();
+  if (keypress & BUTTON_SELECT)
   {
-    keypress = lcd.readButtons();
-    if (keypress & BUTTON_SELECT)
+    pressedTime = msec;
+    if (!pressed)
     {
-      pressedTime = msec;
-      if (!pressed)
-      {
-        debugln("button pressed");
-        reportBatteryStatus();
-      }
-      pressed = true;
-      revertScreen = true;
+      debugln("button pressed");
+      reportBatteryStatus();
     }
+    pressed = true;
+    revertScreen = true;
+  }
 
 
-    //Update TX coil
-    else if (keypress & BUTTON_UP)
+  //Update TX coil
+  else if (keypress & BUTTON_UP)
+  {
+    pressedTime = msec;
+    if (!pressed)
     {
-      pressedTime = msec;
-      if (!pressed)
-      {
-        debugln("button pressed");
-        txPos ++;
-        txPos = txPos % 4;
-        timing.txWidth = coilPulseWidthArray[txPos];
-        loadCounters();
-        printCounters();
-        sendI2C();
-        LCDprintTX(coilPulseWidthArray[txPos]);
-      }
-      pressed = true;
-      revertScreen = true;
+      debugln("button pressed");
+      txPos ++;
+      txPos = txPos % 4;
+      timing.txWidth = coilPulseWidthArray[txPos];
+      loadCounters();
+      printCounters();
+      sendI2C();
+      LCDprintTX(coilPulseWidthArray[txPos]);
     }
+    pressed = true;
+    revertScreen = true;
+  }
 
-    //Update Sample and EFE
-    else if (keypress & BUTTON_DOWN)
+  //Update Sample and EFE
+  else if (keypress & BUTTON_DOWN)
+  {
+    pressedTime = msec;
+    if (!pressed)
     {
-      pressedTime = msec;
-      if (!pressed)
-      {
-        debugln("button pressed - Sample");
-        samplePos ++;
-        samplePos = samplePos % 4;
-        timing.sampleWidth = targetSampleWidthArray[samplePos];
-        timing.efeWidth = targetSampleWidthArray[samplePos];
-        loadCounters();
-        printCounters();
-        sendI2C();
-        LCDprintSample(targetSampleWidthArray[samplePos]);
-      }
-      pressed = true;
-      revertScreen = true;
+      debugln("button pressed - Sample");
+      samplePos ++;
+      samplePos = samplePos % 4;
+      timing.sampleWidth = targetSampleWidthArray[samplePos];
+      timing.efeWidth = targetSampleWidthArray[samplePos];
+      loadCounters();
+      printCounters();
+      sendI2C();
+      LCDprintSample(targetSampleWidthArray[samplePos]);
     }
-    //Audio
-    else if (keypress & BUTTON_LEFT)
+    pressed = true;
+    revertScreen = true;
+  }
+  //Audio
+  else if (keypress & BUTTON_LEFT)
+  {
+    pressedTime = msec;
+    if (!pressed)
     {
-      pressedTime = msec;
-      if (!pressed)
-      {
-        debugln("button pressed - Audio");
-        audioPos ++;
-        audioPos = audioPos % 4;
-        tone(AUDIO, audioFreq[audioPos]);
-        LCDPrintFreq(audioFreq[audioPos]);
-      }
-      pressed = true;
-      revertScreen = true;
+      debugln("button pressed - Audio");
+      audioPos ++;
+      audioPos = audioPos % 4;
+      tone(AUDIO, audioFreq[audioPos]);
+      LCDPrintFreq(audioFreq[audioPos]);
     }
+    pressed = true;
+    revertScreen = true;
+  }
 
 
-    else
+  else
+  {
+    if (pressed && ((msec - pressedTime) > 500))
     {
-      if (pressed && ((msec - pressedTime) > 500))
-      {
-        debugln("button cleared");
-        pressed = false;
-      }
-      if (revertScreen && ((msec - pressedTime) > 2000))
-      {
-        debugln("Screen reverted");
-        lcd.clear();
-        lcd.print(NAME);
-        revertScreen = false;
-      }
+      debugln("button cleared");
+      pressed = false;
+    }
+    if (revertScreen && ((msec - pressedTime) > 2000))
+    {
+      debugln("Screen reverted");
+      lcd.clear();
+      lcd.print(NAME);
+      revertScreen = false;
     }
   }
 }
