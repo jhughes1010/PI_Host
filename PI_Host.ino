@@ -64,9 +64,9 @@ void loop()
   static unsigned long pressedTime = 0;
   static bool pressed = false;
   static bool revertScreen = false;
-  static int txPos = 0;
-  static int samplePos = 0;
-  static int audioPos = 0;
+  static int txPos = 3;
+  static int samplePos = 3;
+  static int audioPos = 2;
   bool lowBat = false;
   msec = millis();
 
@@ -80,7 +80,7 @@ void loop()
     //while(1){}
   }
 
-  LCDBar();
+  //LCDBar();
 
   keypress = lcd.readButtons();
   if (keypress & BUTTON_SELECT)
