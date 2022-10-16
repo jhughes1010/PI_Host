@@ -51,6 +51,8 @@ void setup()
   loadCounters();
   printCounters();
 
+  LCDPrintInit();
+
   debugln("setup completed");
 }
 
@@ -80,7 +82,7 @@ void loop()
     //while(1){}
   }
 
-  //LCDBar();
+  LCDBar();
 
   keypress = lcd.readButtons();
   if (keypress & BUTTON_SELECT)
@@ -153,7 +155,7 @@ void loop()
 
   else
   {
-    if (pressed && ((msec - pressedTime) > 500))
+    if (pressed && ((msec - pressedTime) > 250))
     {
       debugln("button cleared");
       pressed = false;

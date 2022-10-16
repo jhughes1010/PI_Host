@@ -1,4 +1,16 @@
-
+//--------------------
+//LCD display Initial settings
+//--------------------
+void LCDPrintInit(void)
+{
+  float vbat;
+  lcd.clear();
+  lcd.print("TX: 50uS AU:440");
+  lcd.setCursor(0, 1);
+  lcd.print("SA: 50uS VB:");
+  lcd.print(readBatteryV());
+  delay(3000);
+}
 //--------------------
 //LCD display TX
 //--------------------
