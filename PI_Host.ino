@@ -35,7 +35,7 @@ void setup()
   lcd.setBacklight(0x01);
   lcd.print(NAME);
   createCustomChar();
-  
+
 
   Wire.begin();
   //readBatteryV();
@@ -81,8 +81,6 @@ void loop()
     lcd.print("Low Battery");
     //while(1){}
   }
-
-  LCDBar();
 
   keypress = lcd.readButtons();
   if (keypress & BUTTON_SELECT)
@@ -166,6 +164,10 @@ void loop()
       lcd.clear();
       lcd.print(NAME);
       revertScreen = false;
+    }
+    if ((msec - pressedTime) > 2000)
+    {
+      LCDBar();
     }
   }
 }
