@@ -83,9 +83,17 @@ void LCDBar ( void)
   int signalValue;
 
   signalValue = analogRead(SIGNAL);
+  if (signalValue > 400)
+  {
+    signalValue -= 400;
+  }
+  else
+  {
+    signalValue == 0;
+  }
 
   //convert 10 bit value to pixel 0-79
-  pixels = (float)signalValue / 1023 * 80;
+  pixels = (float)signalValue / 623 * 80;
   columns = (int)(pixels / 5);
   pixPortion = (int)pixels % 5;
 
