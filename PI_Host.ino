@@ -52,6 +52,7 @@ void setup()
   printCounters();
 
   LCDPrintInit();
+  delay(3000);
 
   debugln("setup completed");
 }
@@ -65,7 +66,7 @@ void loop()
   unsigned long msec;
   static unsigned long pressedTime = 0;
   static bool pressed = false;
-  static bool revertScreen = false;
+  static bool revertScreen = true;
   static int txPos = 3;
   static int samplePos = 3;
   static int audioPos = 2;
