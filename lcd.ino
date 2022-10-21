@@ -89,7 +89,7 @@ void LCDBar ( void)
   }
   else
   {
-    signalValue == 0;
+    signalValue = 0;
   }
 
   //convert 10 bit value to pixel 0-79
