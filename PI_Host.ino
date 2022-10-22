@@ -1,4 +1,3 @@
-
 #include "config.h"
 #include <Wire.h>
 #include <Adafruit_RGBLCDShield.h>
@@ -22,8 +21,7 @@ int count = 0;
 //=================================
 //setup
 //=================================
-void setup()
-{
+void setup() {
   Serial.begin(115200);
   Serial.println("\n\n");
   Serial.println(NAME);
@@ -52,7 +50,7 @@ void setup()
   printCounters();
 
   LCDPrintInit();
-  delay(3000);
+  delay(2000);
 
   debugln("setup completed");
 }
@@ -60,8 +58,7 @@ void setup()
 //=================================
 //loop
 //=================================
-void loop()
-{
+void loop() {
   byte keypress;
   unsigned long msec;
   static unsigned long pressedTime = 0;
@@ -76,19 +73,16 @@ void loop()
   //Check for low battery
 
   lowBat = lowBattery(msec);
-  if (lowBat)
-  {
+  if (lowBat) {
     lcd.clear();
     lcd.print("Low Battery");
     //while(1){}
   }
 
   keypress = lcd.readButtons();
-  if (keypress & BUTTON_SELECT)
-  {
+  if (keypress & BUTTON_SELECT) {
     pressedTime = msec;
-    if (!pressed)
-    {
+    if (!pressed) {
       debugln("button pressed");
       reportBatteryStatus();
     }
@@ -98,13 +92,11 @@ void loop()
 
 
   //Update TX coil
-  else if (keypress & BUTTON_UP)
-  {
+  else if (keypress & BUTTON_UP) {
     pressedTime = msec;
-    if (!pressed)
-    {
+    if (!pressed) {
       debugln("button pressed");
-      txPos ++;
+      txPos++;
       txPos = txPos % 4;
       timing.txWidth = coilPulseWidthArray[txPos];
       loadCounters();
@@ -117,13 +109,11 @@ void loop()
   }
 
   //Update Sample and EFE
-  else if (keypress & BUTTON_DOWN)
-  {
+  else if (keypress & BUTTON_DOWN) {
     pressedTime = msec;
-    if (!pressed)
-    {
+    if (!pressed) {
       debugln("button pressed - Sample");
-      samplePos ++;
+      samplePos++;
       samplePos = samplePos % 4;
       timing.sampleWidth = targetSampleWidthArray[samplePos];
       timing.efeWidth = targetSampleWidthArray[samplePos];
@@ -136,13 +126,11 @@ void loop()
     revertScreen = true;
   }
   //Audio
-  else if (keypress & BUTTON_LEFT)
-  {
+  else if (keypress & BUTTON_LEFT) {
     pressedTime = msec;
-    if (!pressed)
-    {
+    if (!pressed) {
       debugln("button pressed - Audio");
-      audioPos ++;
+      audioPos++;
       audioPos = audioPos % 4;
       tone(AUDIO, audioFreq[audioPos]);
       LCDPrintFreq(audioFreq[audioPos]);
@@ -152,22 +140,18 @@ void loop()
   }
 
 
-  else
-  {
-    if (pressed && ((msec - pressedTime) > 250))
-    {
+  else {
+    if (pressed && ((msec - pressedTime) > 250)) {
       debugln("button cleared");
       pressed = false;
     }
-    if (revertScreen && ((msec - pressedTime) > 2000))
-    {
+    if (revertScreen && ((msec - pressedTime) > 2000)) {
       debugln("Screen reverted");
       lcd.clear();
       lcd.print(NAME);
       revertScreen = false;
     }
-    if ((msec - pressedTime) > 2000)
-    {
+    if ((msec - pressedTime) > 2000) {
       LCDBar();
     }
   }

@@ -1,5 +1,4 @@
-void sendI2C (void)
-{
+void sendI2C(void) {
 
   Wire.beginTransmission(8);
   //Words are sent LB/HB

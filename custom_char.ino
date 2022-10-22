@@ -53,8 +53,7 @@ byte p100[8] = {
   0b11111,
 };
 
-void createCustomChar( void )
-{
+void createCustomChar(void) {
   lcd.createChar(0, p20);
   lcd.createChar(1, p40);
   lcd.createChar(2, p60);

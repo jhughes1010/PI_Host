@@ -1,13 +1,12 @@
 // Timing related functions and settings
-float coilPulseWidthArray[4] = {20 US, 30 US, 40 US, 50 US};
-float targetSampleWidthArray[4] = {20 US, 30 US, 40 US, 50 US};
+float coilPulseWidthArray[4] = { 20 US, 30 US, 40 US, 50 US };
+float targetSampleWidthArray[4] = { 20 US, 30 US, 40 US, 50 US };
 
 
 //--------------------
 // setTimingTargets - load desired PI timing parameters
 //--------------------
-void setTimingTargets (float tx, float sampleDly, float sample, float efeDly, float efe, float period)
-{
+void setTimingTargets(float tx, float sampleDly, float sample, float efeDly, float efe, float period) {
   timing.txWidth = tx;
   timing.sampleDelay = sampleDly;
   timing.sampleWidth = sample;
@@ -20,8 +19,7 @@ void setTimingTargets (float tx, float sampleDly, float sample, float efeDly, fl
 //--------------------
 // setTimingOffsets - load desired PI timing parameters
 //--------------------
-void setTimingOffsets (float tx, float sampleDly, float sample, float efeDly, float efe, float period)
-{
+void setTimingOffsets(float tx, float sampleDly, float sample, float efeDly, float efe, float period) {
   offsets.txWidth = tx;
   offsets.sampleDelay = sampleDly;
   offsets.sampleWidth = sample;
@@ -33,8 +31,7 @@ void setTimingOffsets (float tx, float sampleDly, float sample, float efeDly, fl
 //--------------------
 // loadCounters - Calculate and load CNT struct
 //--------------------
-void loadCounters(void)
-{
+void loadCounters(void) {
   unsigned int cycleCNTsum;
 
   cycleCNT.txWidthCount = (int)((timing.txWidth - offsets.txWidth) / CNT_PERIOD);
@@ -50,8 +47,7 @@ void loadCounters(void)
 //--------------------
 // printCounters - Dump counter values to serial
 //--------------------
-void printCounters (void)
-{
+void printCounters(void) {
   debug("TX CNT: ");
   debugln(cycleCNT.txWidthCount);
   debug("SampleDelay CNT: ");

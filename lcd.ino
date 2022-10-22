@@ -1,8 +1,7 @@
 //--------------------
 //LCD display Initial settings
 //--------------------
-void LCDPrintInit(void)
-{
+void LCDPrintInit(void) {
   float vbat;
   lcd.clear();
   lcd.print("TX: 50uS AU:440");
@@ -14,8 +13,7 @@ void LCDPrintInit(void)
 //--------------------
 //LCD display TX
 //--------------------
-void LCDprintTX(float value)
-{
+void LCDprintTX(float value) {
   int i_value;
   i_value = (int)(value / 1E-6);
   lcd.clear();
@@ -29,8 +27,7 @@ void LCDprintTX(float value)
 //--------------------
 //LCD display Sample
 //--------------------
-void LCDprintSample(float value)
-{
+void LCDprintSample(float value) {
   int i_value;
   i_value = (int)(value / 1E-6);
   lcd.clear();
@@ -43,8 +40,7 @@ void LCDprintSample(float value)
 //--------------------
 //LCD display VBAT
 //--------------------
-void LCDPrintBattery(float batteryVoltage)
-{
+void LCDPrintBattery(float batteryVoltage) {
   debug("Battery Voltage: ");
   debugln(batteryVoltage);
 
@@ -58,8 +54,7 @@ void LCDPrintBattery(float batteryVoltage)
 //--------------------
 //LCD display AudioFrequency
 //--------------------
-void LCDPrintFreq(int freq)
-{
+void LCDPrintFreq(int freq) {
   debug("Audio: ");
   debugln(freq);
 
@@ -73,43 +68,51 @@ void LCDPrintFreq(int freq)
 //=================================
 //LCDBar()
 //=================================
-void LCDBar ( void)
-{
-  byte bar[16] = {32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32};
+void LCDBar(void) {
+  byte bar[16] = { 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32 };
   int pixels;
   int pos;
   int columns;
   int pixPortion;
   int signalValue;
+  int adcLow, adcHigh;
 
+  adcLow = VSIG_LOW * 205;
+  adcHigh = VSIG_HIGH * 205;
   signalValue = analogRead(SIGNAL);
-  if (signalValue > 400)
-  {
-    signalValue -= 400;
+  //signalValue = 550;
+  debugln("Signal levels: ");
+  debugln(signalValue);
+  debugln(adcLow);
+  debugln(adcHigh);
+
+  if (signalValue > adcHigh) {
+    signalValue = adcHigh;
   }
-  else
-  {
+  if (signalValue > adcLow) {
+    signalValue -= adcLow;
+  } else {
     signalValue = 0;
   }
+  debugln(signalValue);
+  debugln("\n");
 
   //convert 10 bit value to pixel 0-79
-  pixels = (float)signalValue / 623 * 80;
+  pixels = (float)signalValue / (adcHigh - adcLow) * 80;
   columns = (int)(pixels / 5);
   pixPortion = (int)pixels % 5;
 
   debugln(columns);
   debugln(pixPortion);
   //fill columns
-  for (pos = 0; pos < columns; pos++)
-  {
+  for (pos = 0; pos < columns; pos++) {
     bar[pos] = 4;
   }
   bar[columns] = pixPortion;
 
   //Write full row
   lcd.setCursor(0, 1);
-  for (pos = 0; pos < 16; pos++)
-  {
+  for (pos = 0; pos < 16; pos++) {
     lcd.write(bar[pos]);
   }
 }

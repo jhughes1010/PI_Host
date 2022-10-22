@@ -1,8 +1,7 @@
 //Audio settings
-int audioFreq[4] = {220, 330, 440, 660};
+int audioFreq[4] = { 220, 330, 440, 660 };
 
-void setIO(void)
-{
+void setIO(void) {
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(AUDIO, OUTPUT);
 

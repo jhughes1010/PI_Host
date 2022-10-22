@@ -1,8 +1,7 @@
 //--------------------
 //Battery read and LCD clear/display
 //--------------------
-void reportBatteryStatus( void)
-{
+void reportBatteryStatus(void) {
   float voltage;
   voltage = readBatteryV();
   LCDPrintBattery(voltage);
@@ -11,8 +10,7 @@ void reportBatteryStatus( void)
 //--------------------
 //Battery read
 //--------------------
-float readBatteryV(void)
-{
+float readBatteryV(void) {
   float batteryVoltage;
   int batteryADC;
   batteryADC = analogRead(VBAT);
@@ -26,16 +24,13 @@ float readBatteryV(void)
 //--------------------
 //Check for low battery
 //--------------------
-bool lowBattery( unsigned long msec)
-{
+bool lowBattery(unsigned long msec) {
   bool lowBat = false;
   float voltage;
   //We do not need to check battery constantly
-  if (msec % 30000 <= 10)
-  {
+  if (msec % 30000 <= 10) {
     voltage = readBatteryV();
-    if ((batteryType == 0) & (voltage < 9.5))
-    {
+    if ((batteryType == 0) & (voltage < 9.5)) {
       lowBat = true;
     }
   }
