@@ -3,7 +3,7 @@
 #define VERSION "1.0.0a"
 
 
-//#define DEBUG 1
+#define DEBUG 1
 
 #if DEBUG == 1
 #define debug(x) Serial.print(x)
@@ -30,7 +30,7 @@
 //constants
 #define CAL_BATTERY .0145
 #define VSIG_LOW 1.5
-#define VSIG_HIGH 4.0
+#define VSIG_HIGH 3.5
 
 //temp config
 int batteryType = 0;

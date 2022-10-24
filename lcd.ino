@@ -80,7 +80,7 @@ void LCDBar(void) {
   adcLow = VSIG_LOW * 205;
   adcHigh = VSIG_HIGH * 205;
   signalValue = analogRead(SIGNAL);
-  //signalValue = 550;
+  //signalValue = 1024;
   debugln("Signal levels: ");
   debugln(signalValue);
   debugln(adcLow);
@@ -108,7 +108,11 @@ void LCDBar(void) {
   for (pos = 0; pos < columns; pos++) {
     bar[pos] = 4;
   }
-  bar[columns] = pixPortion;
+
+  //Ensure columns are not out of bounds
+  if (columns < 16) {
+    bar[columns] = pixPortion;
+  }
 
   //Write full row
   lcd.setCursor(0, 1);
