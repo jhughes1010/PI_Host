@@ -64,6 +64,7 @@ void loop() {
   static unsigned long pressedTime = 0;
   static bool pressed = false;
   static bool revertScreen = true;
+  static bool backlight = true;
   static int txPos = 3;
   static int samplePos = 3;
   static int audioPos = 2;
@@ -134,6 +135,17 @@ void loop() {
       audioPos = audioPos % 4;
       tone(AUDIO, audioFreq[audioPos]);
       LCDPrintFreq(audioFreq[audioPos]);
+    }
+    pressed = true;
+    revertScreen = true;
+  }
+
+  //toggle backlight
+  else if (keypress & BUTTON_RIGHT) {
+    pressedTime = msec;
+    if (!pressed) {
+      backlight = !backlight;
+      lcd.setBacklight(backlight);
     }
     pressed = true;
     revertScreen = true;

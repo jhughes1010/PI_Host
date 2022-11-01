@@ -104,7 +104,7 @@ void LCDBar(void) {
 
   debugln(columns);
   debugln(pixPortion);
-  //fill columns
+  //fill full columns
   for (pos = 0; pos < columns; pos++) {
     bar[pos] = 4;
   }
