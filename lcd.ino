@@ -1,4 +1,17 @@
 //--------------------
+//LCD boot
+//--------------------
+void LCDPrintBoot(void) {
+  float vbat;
+  lcd.clear();
+  lcd.print("Software ver:");
+  lcd.setCursor(0, 1);
+  lcd.print(VERSION);
+  //lcd.print(readBatteryV());
+  delay(1000);
+}
+
+//--------------------
 //LCD display Initial settings
 //--------------------
 void LCDPrintInit(void) {
@@ -8,7 +21,7 @@ void LCDPrintInit(void) {
   lcd.setCursor(0, 1);
   lcd.print("SA: 50uS VB:");
   lcd.print(readBatteryV());
-  delay(3000);
+  delay(2000);
 }
 //--------------------
 //LCD display TX
@@ -81,10 +94,10 @@ void LCDBar(void) {
   adcHigh = VSIG_HIGH * 205;
   signalValue = analogRead(SIGNAL);
   //signalValue = 1024;
-  debugln("Signal levels: ");
-  debugln(signalValue);
-  debugln(adcLow);
-  debugln(adcHigh);
+  //debugln("Signal levels: ");
+  //debugln(signalValue);
+  //debugln(adcLow);
+  //debugln(adcHigh);
 
   if (signalValue > adcHigh) {
     signalValue = adcHigh;
@@ -94,16 +107,16 @@ void LCDBar(void) {
   } else {
     signalValue = 0;
   }
-  debugln(signalValue);
-  debugln("\n");
+  //debugln(signalValue);
+  //debugln("\n");
 
   //convert 10 bit value to pixel 0-79
   pixels = (float)signalValue / (adcHigh - adcLow) * 80;
   columns = (int)(pixels / 5);
   pixPortion = (int)pixels % 5;
 
-  debugln(columns);
-  debugln(pixPortion);
+  //debugln(columns);
+  //debugln(pixPortion);
   //fill full columns
   for (pos = 0; pos < columns; pos++) {
     bar[pos] = 4;

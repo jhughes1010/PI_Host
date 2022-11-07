@@ -31,7 +31,7 @@ void setup() {
 
   lcd.begin(16, 2);
   lcd.setBacklight(0x01);
-  lcd.print(NAME);
+  //lcd.print(NAME);
   createCustomChar();
 
 
@@ -49,6 +49,7 @@ void setup() {
   loadCounters();
   printCounters();
 
+  LCDPrintBoot();
   LCDPrintInit();
   delay(2000);
 
@@ -60,11 +61,12 @@ void setup() {
 //=================================
 void loop() {
   byte keypress;
+  static byte backlight = 1;
   unsigned long msec;
   static unsigned long pressedTime = 0;
   static bool pressed = false;
   static bool revertScreen = true;
-  static bool backlight = true;
+  //static bool backlight = true;
   static int txPos = 3;
   static int samplePos = 3;
   static int audioPos = 2;
@@ -84,7 +86,7 @@ void loop() {
   if (keypress & BUTTON_SELECT) {
     pressedTime = msec;
     if (!pressed) {
-      debugln("button pressed");
+      debugln("button pressed - Battery check");
       reportBatteryStatus();
     }
     pressed = true;
@@ -96,7 +98,7 @@ void loop() {
   else if (keypress & BUTTON_UP) {
     pressedTime = msec;
     if (!pressed) {
-      debugln("button pressed");
+      debugln("button pressed - TX width");
       txPos++;
       txPos = txPos % 4;
       timing.txWidth = coilPulseWidthArray[txPos];
@@ -113,7 +115,7 @@ void loop() {
   else if (keypress & BUTTON_DOWN) {
     pressedTime = msec;
     if (!pressed) {
-      debugln("button pressed - Sample");
+      debugln("button pressed - Sample width");
       samplePos++;
       samplePos = samplePos % 4;
       timing.sampleWidth = targetSampleWidthArray[samplePos];
@@ -144,7 +146,9 @@ void loop() {
   else if (keypress & BUTTON_RIGHT) {
     pressedTime = msec;
     if (!pressed) {
-      backlight = !backlight;
+      debugln("button pressed - Toggle backlight");
+      backlight += 1;
+      backlight &= 0x07;
       lcd.setBacklight(backlight);
     }
     pressed = true;

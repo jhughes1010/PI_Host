@@ -1,6 +1,6 @@
 //defines
 #define NAME "PI Pro - 2022"
-#define VERSION "1.0.0a"
+#define VERSION "1.1.0a"
 
 
 #define DEBUG 1
