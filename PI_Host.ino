@@ -52,6 +52,7 @@ void setup() {
   LCDPrintBoot();
   LCDPrintInit();
   delay(2000);
+  lcd.setBacklight(0x00);
 
   debugln("setup completed");
 }
@@ -61,7 +62,7 @@ void setup() {
 //=================================
 void loop() {
   byte keypress;
-  static byte backlight = 1;
+  static byte backlight = 0;
   unsigned long msec;
   static unsigned long pressedTime = 0;
   static bool pressed = false;
