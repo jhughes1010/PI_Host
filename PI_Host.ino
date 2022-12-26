@@ -172,4 +172,7 @@ void loop() {
       LCDBar();
     }
   }
+  if (msec > 30000) {
+    delay(10000);
+  }
 }
