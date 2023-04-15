@@ -31,12 +31,9 @@ void setup() {
 
   lcd.begin(16, 2);
   lcd.setBacklight(0x01);
-  //lcd.print(NAME);
   createCustomChar();
 
-
   Wire.begin();
-  //readBatteryV();
 
   tone(AUDIO, 440);
   //setTimingOffsets(1 US, 2.7 US, 3 US, 2 US, 2 US, 2 US);
@@ -80,7 +77,6 @@ void loop() {
   if (lowBat) {
     lcd.clear();
     lcd.print("Low Battery");
-    //while(1){}
   }
 
   keypress = lcd.readButtons();
@@ -96,7 +92,7 @@ void loop() {
 
 
   //Update TX coil
-  else if (keypress & BUTTON_UP) {
+  else if (keypress & BUTTON_LEFT) {
     pressedTime = msec;
     if (!pressed) {
       debugln("button pressed - TX width");
@@ -113,7 +109,7 @@ void loop() {
   }
 
   //Update Sample and EFE
-  else if (keypress & BUTTON_DOWN) {
+  else if (keypress & BUTTON_RIGHT) {
     pressedTime = msec;
     if (!pressed) {
       debugln("button pressed - Sample width");
@@ -130,7 +126,7 @@ void loop() {
     revertScreen = true;
   }
   //Audio
-  else if (keypress & BUTTON_LEFT) {
+  else if (keypress & BUTTON_UP) {
     pressedTime = msec;
     if (!pressed) {
       debugln("button pressed - Audio");
@@ -144,7 +140,7 @@ void loop() {
   }
 
   //toggle backlight
-  else if (keypress & BUTTON_RIGHT) {
+  else if (keypress & BUTTON_DOWN) {
     pressedTime = msec;
     if (!pressed) {
       debugln("button pressed - Toggle backlight");
