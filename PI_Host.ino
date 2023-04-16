@@ -4,6 +4,9 @@
 #include <Adafruit_MCP23X17.h>
 
 //=================================
+// 1.0.1  - 04/15/2023 Change button ordering to accomodate for new PCB button layout
+
+//=================================
 //Global Instances
 //=================================
 Adafruit_RGBLCDShield lcd = Adafruit_RGBLCDShield();
