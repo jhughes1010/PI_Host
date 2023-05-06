@@ -1,9 +1,9 @@
 //defines
 #define NAME "PI Pro - 2022"
-#define VERSION "1.1.0a"
+#define VERSION "1.0.2"
 
 
-#define DEBUG 1
+//#define DEBUG 1
 
 #if DEBUG == 1
 #define debug(x) Serial.print(x)
@@ -20,6 +20,7 @@
 #define US *1E-6
 #define NS *1E-9
 #define CNT_PERIOD 62.5e-9
+#define LCD_START 0
 
 
 //pins

@@ -5,6 +5,8 @@
 
 //=================================
 // 1.0.1  - 04/15/2023 Change button ordering to accomodate for new PCB button layout
+// 1.0.2  - 05/06/2023 Removed debug statement that disables keypresses after 30 sec
+//                     LCD default to light green
 
 //=================================
 //Global Instances
@@ -52,7 +54,7 @@ void setup() {
   LCDPrintBoot();
   LCDPrintInit();
   delay(2000);
-  lcd.setBacklight(0x00);
+  lcd.setBacklight(LCD_START);
 
   debugln("setup completed");
 }
@@ -62,7 +64,7 @@ void setup() {
 //=================================
 void loop() {
   byte keypress;
-  static byte backlight = 0;
+  static byte backlight = LCD_START;
   unsigned long msec;
   static unsigned long pressedTime = 0;
   static bool pressed = false;
@@ -170,8 +172,5 @@ void loop() {
     if ((msec - pressedTime) > 2000) {
       LCDBar();
     }
-  }
-  if (msec > 30000) {
-    delay(10000);
   }
 }
