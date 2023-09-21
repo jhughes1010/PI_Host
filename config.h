@@ -1,9 +1,9 @@
 //defines
-#define NAME "PI Pro - 2022"
-#define VERSION "1.0.2"
+#define NAME "PI Pro - 2023"
+#define VERSION "1.0.3"
 
 
-//#define DEBUG 1
+#define DEBUG 1
 
 #if DEBUG == 1
 #define debug(x) Serial.print(x)

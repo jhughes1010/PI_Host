@@ -7,6 +7,8 @@
 // 1.0.1  - 04/15/2023 Change button ordering to accomodate for new PCB button layout
 // 1.0.2  - 05/06/2023 Removed debug statement that disables keypresses after 30 sec
 //                     LCD default to light green
+// 1.0.3  - 09/21/2023 Fix battery warning code. Sample window of 10mS is too small and also ensure warning stays on screen, now 100mS
+//                     Now checks for low battery every 15 sec
 
 //=================================
 //Global Instances
@@ -73,17 +75,32 @@ void loop() {
   static int txPos = 3;
   static int samplePos = 3;
   static int audioPos = 2;
-  bool lowBat = false;
+  static bool lowBat = false;
   msec = millis();
 
   //Check for low battery
+  //screen warning on LCD and builtin LED turns on if debug enabled
+  if (msec % 15000 <= 50) {
+    lowBat = lowBattery(msec);
+    revertScreen = true;
+    pressedTime = msec;
 
-  lowBat = lowBattery(msec);
-  if (lowBat) {
-    lcd.clear();
-    lcd.print("Low Battery");
+    if (lowBat) {
+      lcd.clear();
+      lcd.print("Low Battery");
+#if DEBUG == 1
+      digitalWrite(LED_BUILTIN, HIGH);
+#endif
+      debugln("Battery Low");
+    } else {
+#if DEBUG == 1
+      digitalWrite(LED_BUILTIN, LOW);
+#endif
+    }
   }
 
+
+  //Keypress evaluation
   keypress = lcd.readButtons();
   if (keypress & BUTTON_SELECT) {
     pressedTime = msec;
@@ -163,7 +180,7 @@ void loop() {
       debugln("button cleared");
       pressed = false;
     }
-    if (revertScreen && ((msec - pressedTime) > 2000)) {
+    if (!lowBat && revertScreen && ((msec - pressedTime) > 2000)) {
       debugln("Screen reverted");
       lcd.clear();
       lcd.print(NAME);
